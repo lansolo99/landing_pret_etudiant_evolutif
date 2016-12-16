@@ -325,12 +325,6 @@ sup {
           margin-bottom: 40px;
           width: 60px;
           height: 60px; }
-          .segment.presentation .wrapper .col.span_1_of_2.produit .features .col img.modulation {
-            width: 103px; }
-            @media only screen and (max-width: 767px) {
-              .segment.presentation .wrapper .col.span_1_of_2.produit .features .col img.modulation {
-                width: 16vw;
-                height: 16vw; } }
           @media only screen and (max-width: 767px) {
             .segment.presentation .wrapper .col.span_1_of_2.produit .features .col img {
               display: inline-block;
