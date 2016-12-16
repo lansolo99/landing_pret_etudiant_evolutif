@@ -6,6 +6,8 @@
 	header, nav, footer, figure, section, article {display: block;}
 	html, body, span, object, iframe, h1, h2, h3, h4, h5, h6, a, em, font, img, strong, sub, sup, dl, dt, dd, ul, ol, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, p {margin: 0;	padding: 0;	border: 0;	outline: 0; text-decoration: none;}
 
+
+
 	/***************/
 	/* BORDER BOX */
 	/**************/
@@ -22,6 +24,42 @@
 	  -moz-box-sizing: inherit;
 	  -webkit-box-sizing: inherit;
 	  -o-box-sizing: inherit;
+	}
+
+
+	/*******************************
+	           Mixins
+	*******************************/
+
+	//Responsive
+	@mixin responsive($width) {
+	  @if $width == small-mobile {
+	    @media only screen and (max-width: 600px) { @content; }
+	  }
+	  @if $width == mobile {
+	    @media only screen and (max-width: 767px) { @content; }
+	  }
+	  @else if $width == tablet {
+	    @media only screen and (min-width: 768px) and (max-width: 991px) { @content; }
+	  }
+	  @else if $width == tablet+mobile {
+	    @media only screen and (max-width: 991px) { @content; }
+	  }
+		@else if $width == tablet+small-monitor {
+			@media only screen and (max-width: 1200px) { @content; }
+		}
+	  @else if $width == small-monitor {
+	    @media only screen and (min-width: 992px) and (max-width: 1199px) { @content; }
+	  }
+	  @else if $width == large-monitor {
+	    @media only screen and (min-width: 1300px) { @content; }
+	  }
+	  @else if $width == large-monitor+small-monitor {
+	    @media only screen and (min-width: 992px) { @content; }
+	  }
+	  @else if $width == tablet-and-beyond{
+	    @media only screen and (min-width: 768px) { @content; }
+	  }
 	}
 
 
@@ -68,13 +106,29 @@
 	.group:after { clear:both;}
 	.group { zoom:1; /* For IE 6/7 */ }
 
-	/*  Grid of two  */
+	/*  Grid of two (presentation + form) */
 	.span_2_of_2 {
 		width: 100%;
 	}
 	.span_1_of_2 {
 		width: 49.2%;
+
+		@include responsive(small-monitor){
+			width: 54.2%;
+		}
+
+		@include responsive(tablet){
+			width: 100%;
+		}
+
+		&.formulaire{
+			@include responsive(small-monitor){
+				width: 44.2%;
+			}
+		}
 	}
+
+
 
 	/*  Grid of three */
 	.span_3_of_3 { width: 100%; }
@@ -87,15 +141,18 @@
 
 	/*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 
-	@media only screen and (max-width: 480px) {
+	@media only screen and (max-width: 767px) {
 		.col {
 			margin: 1% 0 1% 0%;
 		}
 	}
 
-	@media only screen and (max-width: 480px) {
+	@media only screen and (max-width: 1100px) {
+		/* .span_2_of_2, .span_1_of_2 { width: 100%; } */
+	}
+	@media only screen and (max-width: 767px) {
 		.span_2_of_2, .span_1_of_2 { width: 100%; }
-		.span_3_of_3, .span_2_of_3, .span_1_of_3 { width: 100%; }
+		.span_3_of_3, .span_2_of_3, .span_1_of_3, .span_1_of_3.s1, .span_1_of_3.s2, .span_1_of_3.s3  { width: 100%; }
 	}
 
 	/*************/
@@ -117,16 +174,8 @@
 
 	.segment{
 	  width: 100%;
+
 	}
-
-	.segment.message{
-	  background: #ffffff;
-	  padding: 30px 0;
-	}
-
-
-
-
 
 	.segment.footer{
 	  background: #fff;
@@ -146,10 +195,6 @@
 	  width: 1090px;
 	}
 
-	.wrapper.main-image{
-	  width: 100%;
-	}
-
 	sup{
 		position: relative;
 		top: -0.75em;
@@ -160,19 +205,48 @@
 		display: block;
 	}
 
+	.desktop-break{
+		display: inline-block;
+		@include responsive(mobile){
+			display:none;
+		}
+	}
+
+	.mobile-break{
+		display: inline;
+		@include responsive(tablet-and-beyond){
+			display:none;
+		}
+	}
+
 
 
 	/* Header */
 
+
+
+
 	.segment.header{
 	  background: #faf9f7;
 	  padding: 20px 0;
+
+		@include responsive(tablet+small-monitor){
+			padding:20px;
+		}
+		@include responsive(mobile){
+			padding:3%;
+		}
 
 		#logo{
 		  display: inline-block;
 		  vertical-align: middle;
 		  width: 200px;
 		  height: 60px;
+
+			@include responsive (mobile){
+				width: 30vw;
+				height: auto;
+			}
 		}
 
 	}
@@ -190,7 +264,22 @@
 			padding-top: 40px;
 			height: 289px;
 
-			div.insert{
+		@include responsive(tablet+small-monitor){
+			width: 100%;
+			background-position: center top;
+			background-size: cover;
+		}
+
+		@include responsive(mobile){
+			background: url('../images/theme_mobile.jpg') no-repeat;
+			background-position: 50% 50%;
+			background-size: cover;
+			height: 30vw;
+		}
+
+			div#insert{
+
+
 				background-color: $color-white;
 				text-align: center;
 				text-transform: uppercase;
@@ -204,7 +293,7 @@
 					font-size: 39px;
 					font-weight: 500;
 					line-height: 50px;
-					span{
+					span.financez{
 						display:block;
 						color: $color-red;
 					}
@@ -221,7 +310,36 @@
 		margin-top: 30px;
 		margin-bottom: 30px;
 
+		@include responsive (mobile){
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+
+		@include responsive (tablet){
+			margin-bottom: 50px;
+		}
+
+		.wrapper{
+			@include responsive (small-monitor){
+				width: 100%;
+				padding-left: 3%;
+				padding-right: 3%;
+			}
+
+			@include responsive (tablet){
+				padding-left: 3%;
+				padding-right: 3%;
+				width: 100%;
+			}
+
+			@include responsive (tablet+mobile){
+				width: 100%;
+			}
+
+
 		.col{
+
+		/* 	@include responsive */
 
 			&.span_1_of_2{
 
@@ -232,8 +350,34 @@
 					color: $color-anthracite;
 					background-color: #ffffff;
 
+					@include responsive(mobile){
+						padding-top: 0;
+						margin-top: 0;
+					}
+
+
+					//Insert > Mobile version only
+					div#insert{
+						text-align: center;
+						text-transform: uppercase;
+						margin-bottom: 5%;
+
+						h1{
+							color: $color-red;
+							font-size: 5.9vw;
+							font-weight: 500;
+							line-height: 8vw;
+						}
+					}
+
 					.message{
 						font-size: 23px;
+
+						@include responsive(mobile){
+							font-size: 4.5vw;
+							margin-bottom: 10%;
+						}
+
 						font-weight: 500;
 						margin-bottom: 30px;
 						.slogan{
@@ -243,10 +387,16 @@
 							span{
 								color: $color-red;
 							}
+
+
+							@include responsive(mobile){
+								font-size: 4.5vw;
+								margin-bottom: 0;
+							}
 						}
 					}
 
-					.separator{
+					#separator{
 						background-color: $color-anthracite;
 						width: 107px;
 						height: 2px;
@@ -254,7 +404,7 @@
 						margin-bottom: 30px;
 					}
 
-					.thematiques{
+					#thematiques{
 						text-transform: uppercase;
 						font-size: 16px;
 						margin-bottom: 50px;
@@ -262,15 +412,34 @@
 							display:inline-block;
 							margin:0 10px;
 						}
+
+						@include responsive(mobile){
+							color: $color-white;
+							background-color:#333333;
+							padding: 3%;
+							font-size: 2.9vw;
+							margin-bottom: 7%;
+							padding-top: 4%;
+						}
 					}
 
 					.features{
+
+						@include responsive(mobile){
+							padding-left: 12%;
+							padding-right: 12%;
+						}
 						.col{
 							margin: 1% 0 1% 0%;
 							text-align: center;
 							font-size: 17px;
 							text-transform: uppercase;
 							font-weight: 500;
+
+							@include responsive(mobile){
+								text-align: left;
+								font-size: 3.9vw;
+							}
 
 							img{
 								display: block;
@@ -280,6 +449,32 @@
 								height: 60px;
 								&.modulation{
 									width: 103px;
+
+									@include responsive(mobile){
+										width: 16vw;
+										height: 16vw;
+
+									}
+								}
+
+								@include responsive(mobile){
+									display:inline-block;
+									vertical-align: top;
+									width: 16vw;
+									height: 16vw;
+									margin-right: 5vw;
+									margin-bottom: 5vw;
+								}
+							}
+
+							.description{
+								@include responsive(mobile){
+									position: relative;
+									top:2vw;
+									display:inline-block;
+									text-align: left;
+									vertical-align: top;
+									width: 50vw;
 								}
 							}
 						}
@@ -289,6 +484,14 @@
 				}
 
 				&.formulaire{
+
+					@include responsive (tablet){
+						display:none;
+					}
+
+					@include responsive (mobile){
+						display:none;
+					}
 
 					/* Form */
 
@@ -323,6 +526,10 @@
 						margin: 30px 0;
 						width: 480px;
 						margin:auto;
+
+						@include responsive(tablet+small-monitor){
+							width: 400px;
+						}
 
 						.title{
 							background: $color-grey-blue;
@@ -427,6 +634,79 @@
 			}
 	}
 
+	.simplified-form{
+
+		padding:5%;
+
+		.button{
+			margin-top: 15px;
+			border-radius: 3px;
+			background: #cb2323;
+			color: #ffffff;
+			font-size: 19px;
+			font-weight: 700;
+			height: auto;
+			padding: 7px;
+			letter-spacing: normal;
+			border: none;
+			border-bottom: 2px solid #850f0e;
+
+			span{
+				position: relative;
+				right:12px;
+				top:2px;
+			}
+
+			&:hover{
+				background: #bc1f1f;
+				transition: background 0.3s;
+			}
+
+			@include responsive (mobile){
+				margin-top: 3vw;
+				border-radius: 0.8vw;
+				background: #cb2323;
+				color: #ffffff;
+				font-size: 4.5vw;
+				font-weight: 500;
+				height: auto;
+				padding: 4% 4%;
+				letter-spacing: normal;
+				border: none;
+				border-bottom: 2px solid #850f0e;
+
+				span{
+					position: relative;
+					top:0.5vw
+				}
+
+				&:hover{
+					background: #bc1f1f;
+					transition: background 0.3s;
+				}
+			}
+
+		}
+
+		a.customer{
+			float:right;
+			text-decoration: underline;
+			color: #333;
+			@include responsive (mobile){
+				float:right;
+				text-decoration: underline;
+				color: #333;
+				font-size: 4vw;
+			}
+
+		}
+
+		@include responsive (large-monitor+small-monitor){
+			display:none;
+		}
+
+
+	}
 
 	p.mention{
 		display:block;
@@ -435,6 +715,16 @@
 		font-size: 16px;
 		margin-top: 20px;
 		text-align: center;
+
+		@include responsive(mobile){
+			margin-top: 0;
+			padding:5%;
+			padding-bottom: 10%;
+			font-size: 4vw;
+		}
+	}
+
+
 	}
 }
 
@@ -449,6 +739,21 @@
 			padding: 30px;
 			background-color: $color-grey-blue;
 
+			@include responsive(small-monitor){
+				width: 100%;
+			}
+
+			@include responsive(tablet){
+				width: 100%;
+			}
+
+			@include responsive(mobile){
+				width: 100%;
+				padding: 10%;
+			}
+
+
+
 
 			h1{
 				text-transform: uppercase;
@@ -459,17 +764,47 @@
 				text-align: center;
 				font-weight: 400;
 				letter-spacing: normal;
+
+				@include responsive (mobile){
+					font-size: 5vw;
+					line-height: 7.5vw;
+					margin-bottom: 5vw;
+				}
 			}
 
+			.separator{
+				background-color: $color-white;
+				height: 1px;
+				width: 55vw;
+				margin: auto;
+
+				@include responsive (tablet){
+					margin-top: 30px;
+					margin-bottom: 30px;
+				}
+
+				@media only screen and (min-width: 900px) {
+					display:none;
+				}
+			}
 			.row .column{
 			  margin-top: 18px;
 				text-align: center;
 				color: #ffffff;
 
+
+				@include responsive (mobile){
+					padding-bottom: 3vw;
+				}
+
 				p {
 				  margin-top: 20px;
 				  font-size: 16px;
 				  line-height: 1.5em;
+
+					@include responsive(mobile){
+					 font-size: 4vw;
+					}
 
 					span{
 					 display: block;
@@ -478,6 +813,13 @@
 					 font-size: 24px;
 					 line-height: 32px;
 					 margin-bottom: 10px;
+
+					 @include responsive(mobile){
+						font-size: 6vw;
+						line-height: 7.8vw;
+						font-weight: 300;
+						margin-top: 8vw;
+					 }
 				 	}
 				}
 			}
@@ -489,12 +831,37 @@
 	/* Mentions légales */
 
 	.segment.mentions_legales{
+
+		@include responsive (mobile){
+			padding: 0;
+		}
 		.wrapper{
+
+			@include responsive(small-monitor){
+				width: 100%;
+				padding: 20px;
+			}
+
+			@include responsive(tablet){
+				width: 100%;
+				padding: 20px;
+			}
+
+			@include responsive(mobile){
+				width: 100%;
+				padding: 5%;
+			}
+
 
 			#mentions_legales {
 				margin: auto;
 				font-size: 12px;
 				color: #666666;
+
+				@include responsive (mobile){
+					font-size: 3vw;
+
+				}
 
 				.mentions{
 				 counter-reset: mention_count;
@@ -504,6 +871,10 @@
 			 		padding: 0px 0 4px 0;
 			 		padding-left: 25px;
 			 		line-height: 18px;
+					@include responsive (mobile){
+						line-height: 5vw;
+						padding-bottom: 4vw;
+					}
 
 					&:before{
 						content: '('counter(mention_count)')';
@@ -512,6 +883,9 @@
 						left: 0;
 						top: 0;
 						font-size: 11px;
+						@include responsive(mobile){
+							font-size: 2.8vw;
+						}
 					}
 
 					&.last{
@@ -529,15 +903,47 @@
 
 		.segment.footer {
 
+
+
+
+
+			@include responsive (mobile){
+				padding:0;
+				margin-bottom: 0;
+			}
 			border-top:1px solid #e4e4e4;
 
 			.wrapper{
 			  position: relative;
 
+
+				@include responsive(small-monitor){
+					width: 100%;
+					padding: 20px;
+				}
+
+				@include responsive(tablet){
+					width: 100%;
+					padding: 20px;
+				}
+
+				@include responsive(mobile){
+					text-align: center;
+					width: 100%;
+					padding: 5%;
+				}
+
 				.logosgfooter{
 				  position: absolute;
 				  top: 0;
 				  left: 0;
+
+					@include responsive (tablet+small-monitor){
+						position: relative;
+					}
+					@include responsive(mobile){
+						display:none;
+					}
 
 					img{
 						width: 180px;
@@ -550,23 +956,42 @@
 				  float: right;
 				  position: relative;
 				  top:-1px;
+					@include responsive (small-monitor){
+						float:none;
+					}
+					@include responsive (tablet+mobile){
+						float:none;
+					}
+
 
 					li{
 					  display: inline-block;
 					  font-size: 11px;
+						@include responsive (mobile){
+							color: #666666;
+							font-size: 3.4vw;
+							font-weight: 400;
+							margin-bottom: 2vw;
+						}
 
 						a{
 						  color: #333;
+
+
 						}
 
-						&:nth-child(-n+5):after{
+						&:nth-child(-n+6):after{
 							content: '|';
 							padding-right: 5px;
 							padding-left: 5px;
+							@include responsive (mobile){
+								padding-right: 2vw;
+								padding-left: 2vw;
+							}
 						}
 
 						&:nth-child(7){
-						  margin-left: 20px;
+						  /* margin-left: 20px; */
 						}
 					}
 
@@ -596,355 +1021,4 @@
 		top:0;
 		right:0;
 		cursor:pointer;
-	}
-
-
-
-
-
-
-
-
-	/* Media Queries */
-
-	@media screen and (max-width:1100px) {
-
-	  .segment.header{
-	    padding: 30px;
-	  }
-
-		.segment.message{
-	    padding: 40px 30px;
-	  }
-
-
-	  .segment.contact{
-	    padding: 40px 30px;
-	  }
-
-		.segment.contact.main-image{
-	    padding: 0;
-	  }
-
-
-		.segment.description{
-			padding: 30px;
-		}
-
-		.segment.exemple{
-	    padding: 30px;
-	  }
-
-
-	  .segment.expertise{
-	    padding: 30px;
-	  }
-
-	  .segment.footer{
-	    padding: 30px;
-			padding-top: 0;
-	  }
-
-	  .segment.mentions_legales{
-	    padding: 30px;
-	  }
-
-	  .wrapper{
-	   width: 100%;
-	  }
-
-		.wrapper-form{
-			width: 100%;
-
-		}
-
-	  #main_image{
-	    width: 100%;
-	    margin-right: 5%;
-	  }
-
-
-	  .logosgfooter{
-	    display: block;
-	    position: relative;
-	  }
-
-	  .copyright{
-	    display: block;
-	    float: none;
-			margin-top: 1vw;
-	  }
-
-	  .copyright li:nth-child(7){
-	    margin-left: 0;
-	    display: block;
-	    margin-top: 10px;
-	  }
-
-	}
-
-
-	@media screen and (max-width:900px) {
-
-		.segment.message{
-			position: absolute;
-			top:53vw;
-			left:5%;
-			width: 90%;
-			height: auto;
-			padding: 5vw;
-		}
-
-		.segment.message h1{
-			font-size: 6vw;
-			line-height: 8vw;
-		}
-
-		.segment.message #baseline sup{
-			font-size: 3vw;
-		}
-
-		.segment.message #baseline{
-			font-size: 4.7vw;
-			line-height: 7.5vw;
-		}
-
-		#logoMobile{
-		  display: inline-block;
-		  vertical-align: middle;
-			width: 40vw;
-	    height: auto;
-		}
-
-		#logo2Mobile{
-		  display: inline-block;
-		  vertical-align: middle;
-			float:right;
-			position: relative;
-			width: 24vw;
-	    height: auto;
-			top:-1vw;
-		}
-
-		#logo, #logo2  {
-			display:none;
-	  }
-
-
-		.segment.contact.main-image{
-	    display: none;
-	  }
-
-		#mobile-image{
-			display: block;
-			width: 100%;
-			height: auto;
-			background: #cb2323;
-		}
-
-		#mobile-image img{
-			width: 124%;
-			height:auto;
-		}
-
-		#mobile-promo, #mobile-contact{
-			display: block;
-			background: #cb2323;
-			color: #ffffff;
-			text-align: center;
-		}
-
-		#mobile-promo .taux{
-			margin-bottom: 2.5vw;
-		}
-
-
-		#mobile-promo .taux h2, #mobile-promo .taux h3{
-			display: inline;
-			font-size:  11vw;
-		}
-
-		#mobile-promo .taux h2{
-			font-weight: 700;
-		}
-
-		#mobile-promo .taux h3{
-			font-weight: 100;
-		}
-
-		#mobile-promo .taux h3 sup{
-			font-size: 7vw;
-		}
-
-		#mobile-promo  .mention {
-			color: #fec2c1;
-			padding-top: 10px;
-			font-size: 4vw;
-			font-weight: 500;
-			line-height: 6.5vw;
-		}
-
-		#mobile-contact h2{
-		  color: #fff;
-		  font-weight: 500;
-		  font-size: 3.3vw;
-		  letter-spacing: normal;
-			text-transform: uppercase;
-			text-align: left;
-		}
-
-		#mobile-contact .button{
-			margin-top: 15px;
-			border-radius: 3px;
-			background: #ffffff;
-			color: #333333;
-			font-size: 5vw;
-			line-height: 7.3vw;
-			font-weight: 500;
-			height: auto;
-			padding: 3vw;
-			letter-spacing: normal;
-			border: none;
-			border-bottom: 2px solid #850f0e;
-		}
-
-		#mobile-contact .button span{
-			position: relative;
-			top:0.5vw;
-		}
-
-		#mobile-contact .row{
-			text-align: right;
-		}
-
-		#mobile-contact .row a {
-			color: #ffffff;
-			text-decoration: underline;
-		}
-
-
-		.segment.exemple .main{
-			padding: 3vw;
-			margin-bottom: 4vw;
-		}
-
-		.segment.exemple p {
-			font-size: 4vw;
-			line-height: 6vw;
-		}
-
-
-		.segment.exemple .main p sup{
-			font-size: 3vw;
-		}
-
-		.segment.exemple .main p strong{
-			font-size: 5vw;
-		}
-
-		.segment.exemple .main p span > strong {
-			font-size: 5vw;
-		}
-
-
-		.segment.description p{
-			font-size: 3.5vw;
-		}
-
-		.segment.expertise h1{
-			font-size: 5vw;
-		}
-
-		.segment.expertise .row .column p {
-		  font-size: 3.5vw;
-		}
-
-		.segment.expertise .row .column p span{
-			font-size: 4vw;
-		}
-
-
-		#mentions_legales {
-			font-size: 3vw;
-		}
-
-		#mentions_legales .mentions dt{
-			line-height: 5vw;
-			padding-left: 6vw;
-			padding-bottom: 1vw;
-		}
-
-
-		#mentions_legales .mentions dt:before{
-			font-size: 3vw;
-		}
-
-		.logosgfooter img{
-			width: 50vw;
-		}
-
-		.copyright li{
-		  font-size: 3vw;
-		}
-
-
-	}
-
-
-	@media screen and (max-width:900px) {
-
-		.segment.header{
-			padding: 5%;
-		}
-
-	  .segment.contact{
-	    padding: 7% 5%;
-	  }
-
-		#mobile-promo, #mobile-contact{
-			padding: 5%;
-		}
-
-		#mobile-promo{
-			padding-top: 47vw;
-		}
-
-		#mobile-contact{
-			padding-top: 0;
-		}
-
-		.segment.exemple{
-	    padding: 5%;
-	  }
-
-		.segment.description{
-	    padding: 7% 5%;
-	  }
-
-	  .segment.expertise{
-	    padding: 7% 5%;
-	  }
-
-	  .segment.footer{
-	    padding: 5%;
-	  }
-
-	  .segment.mentions_legales{
-	    padding: 7% 5%;
-	  }
-
-	  .segment.contact h1{
-	   font-size: 6vw;
-	  }
-
-	  .segment.contact h1 span{
-	   display: block;
-	  }
-
-	  .segment.contact #baseline{
-	  font-size: 4vw;
-	  line-height: 6vw;
-	  }
-
-
 	}

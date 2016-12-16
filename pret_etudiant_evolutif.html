@@ -14,10 +14,10 @@
 
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,100,300,500,700,900' rel='stylesheet' type='text/css'>
 	<link rel="shortcut icon" href="images/favicon.ico">
-
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/skeleton.css">
 	<link rel="stylesheet" href="css/style.css">
+
 
 
 	<!--[if lte IE 8]>
@@ -131,6 +131,7 @@
 
 	<!-- Scripts -->
 
+	<script src="js/enquire.min.js"></script>
 	<script src="js/modernizr.js"></script>
 	<script src="https://static.societegenerale.fr/pri/contenu/js/jquery-1-4-2-min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="https://static.societegenerale.fr/pri/PRI/Repertoire_par_type_de_contenus/Type_de_contenu/03-Divers/landing-page-toolbox/bottin-popin.js"></script>
@@ -216,7 +217,7 @@
 				<!-- HERO -->
 				<div class="segment hero">
 					<div class="wrapper">
-						<div class="insert"><h1><span>Financez</span> vos études en<br> toute liberté</h1></div>
+						<div id="insert"><h1><span class="financez">Financez</span> vos études <span class="mobile-break"><br></span>en <span class="desktop-break"><br></span> toute liberté</h1></div>
 					</div>
 				</div>
 
@@ -229,21 +230,21 @@
 							<div class="message"><div class="slogan">Avec le <span>Prêt Étudiant Évolutif <sup>(1)</sup></span>,</div>
 							Société Générale vous accompagne<br> pour financer votre projet.
 							</div>
-							<div class="separator"></div>
-							<div class="thematiques">Frais de scolarité <span>|</span> frais d’installation <span>|</span> véhicule</div>
+							<div id="separator"></div>
+							<div id="thematiques">Frais de scolarité <span>|</span> frais d’installation <span>|</span> véhicule</div>
 
 							<div class="section group features">
 								<div class="col span_1_of_3 s1">
 									<img src="images/picto_remboursement.svg" alt="remboursement du prêt">
-									Jusqu’à 9 ans<br> pour rembourser votre prêt
+									<div class="description">Jusqu’à 9 ans <span class="desktop-break"><br></span> pour rembourser votre prêt</div>
 								</div>
 								<div class="col span_1_of_3 s2">
 									<img class="modulation" src="images/picto_modulation.svg" alt="modulation des remboursements">
-									Modulez vos<br> remboursements<sup>(2)</sup>
+									<div class="description">Modulez vos<br> remboursements<sup>(2)</sup></div>
 								</div>
 								<div class="col span_1_of_3 s3">
 									<img src="images/picto_justificatif.svg" alt="pas de justificatifs">
-									Sans aucun justificatif<br> de dépense
+									<div class="description">Sans aucun justificatif<br> de dépense</div>
 								</div>
 							</div>
 
@@ -306,6 +307,12 @@
 
 							</div>
 						</div>
+
+						<div class="simplified-form">
+							<a href="#" class="button u-full-width" id="cta_" onclick="sendData(xiti_xtpage);"><span>RENCONTRER UN CONSEILLER<i class="icon-arrow"></i></span></a>
+							<div class="row"><a href="https://particuliers.societegenerale.fr/jeunes/tous_les_produits/emprunter/pret_jeune_actif.html" class="customer">Déja client ?</a></div>
+						</div>
+
 						<p class="mention">Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager.</p>
 
 					</div>
@@ -315,16 +322,22 @@
 				<!-- EXPERTISE -->
 				<div class="segment expertise">
 					<div class="wrapper">
-						<h1>Les raisons de choisir Société Générale</h1>
+						<h1>Les raisons de choisir 	<span class="mobile-break"><br></span> Société Générale</h1>
 
 						<div class="row">
+
 							<div class="one-third column">
+								<div class="separator"></div>
 								<p><span>Un accompagnement<br class="rwd-break"> et des conseils<br class="rwd-break"> d’experts</span> qui répondra à vos questions et vous proposera des solutions adaptées à vos besoins</p>
 							</div>
+
 							<div class="one-third column">
+								<div class="separator"></div>
 								<p><span>Des Avantages tarifaires exclusifs</span> Des taux préférentiels pour les étudiants des Grandes Écoles</p>
 							</div>
+
 							<div class="one-third column">
+								<div class="separator"></div>
 								<p><span>Une proximité<br class="rwd-break"> du réseau d’agences<br class="rwd-break"> Société Générale</span> Bénéficiez des services de plus de 2000 agences du réseau Société Générale</p>
 							</div>
 						</div>
@@ -368,8 +381,41 @@
 					</div>
 				</div>
 
+				
+
 
 			</div>
+
+			<!-- MOVING ELEMENTS IN DOM -->
+			<script>
+
+			//Tablet and beyond
+			enquire.register("screen and (min-width: 768px)", {
+
+			    match : function() {
+console.log("desktop");
+								jQuery("#insert").detach().appendTo('.segment.hero .wrapper');
+								jQuery("#thematiques").detach().insertAfter('.segment.presentation .message');
+								jQuery("#separator").detach().insertAfter('.segment.presentation .message');
+					},
+
+
+			});
+
+			//Mobile
+			enquire.register("screen and (max-width: 767px)", {
+
+			    match : function() {
+						console.log("mobile");
+								jQuery("#insert").detach().insertBefore('.segment.presentation .message');
+								jQuery("#thematiques").detach().prependTo('.segment.presentation .produit');
+								jQuery("#separator").detach().insertBefore('.segment.presentation .message');
+					},
+
+
+			});
+
+			</script>
 
 
 </body>
