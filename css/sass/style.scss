@@ -198,7 +198,7 @@
 	sup{
 		position: relative;
 		top: -0.75em;
-		font-size: 0.5em;
+		font-size: 0.6em;
 	}
 
 	.rwd-break{
@@ -407,10 +407,10 @@
 					#thematiques{
 						text-transform: uppercase;
 						font-size: 16px;
-						margin-bottom: 50px;
+						margin-bottom: 80px;
 						span{
 							display:inline-block;
-							margin:0 10px;
+							margin:0 15px;
 						}
 
 						@include responsive(mobile){
@@ -862,7 +862,14 @@
 			 		padding: 0px 0 4px 0;
 			 		padding-left: 25px;
 			 		line-height: 18px;
+
 					@include responsive (mobile){
+
+						padding-left: 7vw;
+						&:nth-child(n+4){
+							display:none;
+						}
+
 						line-height: 5vw;
 						padding-bottom: 4vw;
 					}

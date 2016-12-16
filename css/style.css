@@ -151,7 +151,7 @@ body {
 sup {
   position: relative;
   top: -0.75em;
-  font-size: 0.5em; }
+  font-size: 0.6em; }
 
 .rwd-break {
   display: block; }
@@ -293,10 +293,10 @@ sup {
       .segment.presentation .wrapper .col.span_1_of_2.produit #thematiques {
         text-transform: uppercase;
         font-size: 16px;
-        margin-bottom: 50px; }
+        margin-bottom: 80px; }
         .segment.presentation .wrapper .col.span_1_of_2.produit #thematiques span {
           display: inline-block;
-          margin: 0 10px; }
+          margin: 0 15px; }
         @media only screen and (max-width: 767px) {
           .segment.presentation .wrapper .col.span_1_of_2.produit #thematiques {
             color: #ffffff;
@@ -609,8 +609,11 @@ sup {
       line-height: 18px; }
       @media only screen and (max-width: 767px) {
         .segment.mentions_legales .wrapper #mentions_legales .mentions dt {
+          padding-left: 7vw;
           line-height: 5vw;
-          padding-bottom: 4vw; } }
+          padding-bottom: 4vw; }
+          .segment.mentions_legales .wrapper #mentions_legales .mentions dt:nth-child(n+4) {
+            display: none; } }
       .segment.mentions_legales .wrapper #mentions_legales .mentions dt:before {
         content: "(" counter(mention_count) ")";
         counter-increment: mention_count;
